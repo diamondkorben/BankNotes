@@ -355,7 +355,6 @@ class BankNotes extends PluginBase implements Listener{
 				}
 			
 			
-			case "note":
 			case "withdraw":
 				
 				#check if player used arguments
@@ -416,7 +415,24 @@ class BankNotes extends PluginBase implements Listener{
 				}
 			}
 			break;
-			
+			case "note":
+			    if($sender->hasPermission("banknotes.command.note")){
+			        if(isset($args[0]) && isset($args[1])){
+			            if($player = Server::getInstance()->getPlayer($args[0]) instanceof Player){
+			                $player = Server::getInstance()->getPlayer($args[0]) instanceof Player;
+			                $count = 1;
+			                $note = $this->noteItem($args[1], (int)$count, $player);
+			                $player->getInventory()->addItem($note);
+			            }else{
+			                $sender->sendMessage(C::RED . "Player not found");
+			            }
+			        }else{
+			            $sender->sendMessage(C::RED . "Invalid Usage");
+			        }
+			    }else{
+			        $sender->sendMessage(C::RED . "You do not have permission to run this command");
+			    }
+			break;
 			case "deposit":
 			$return = $this->depositCheck($sender);
 			switch($return){
